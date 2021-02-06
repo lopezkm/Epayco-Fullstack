@@ -5,30 +5,30 @@ import { toast } from 'react-toastify';
 
 toast.configure();
 
-export default function AddMoney( {order, handleShow} ) {
+export default function ConfirmShop({modalConfirm, handleConfirmCode, closeShop}) {
 
-    const [moneyAdded, setMoneyAdded] = useState({
-        money:""
+    const [code, setCode] = useState({
+        confirmCode:""
     })
     const [show, setShow] = useState(false);
     const [flag, setFlag] = useState(false);
 
     function handleChange(e) {
-        setMoneyAdded({
-            ...moneyAdded,
+        setCode({
+            ...code,
             [e.target.name]:e.target.value,
         });
     }
 
-    function handleMoneyAdded() {
+    function handleconfirmShop() {
         setShow(false);
-        handleShow();
+        handleConfirmCode();
     }
 
     function handleConfirm() {
-        let {money} = moneyAdded;
-        if(money === ""){
-            toast.error( "No ingresaste ningún monto", {
+        let {confirmCode} = code;
+        if(confirmCode === ""){
+            toast.error( "No ingresaste ningún código", {
                 position: 'top-center',
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -39,7 +39,7 @@ export default function AddMoney( {order, handleShow} ) {
             } )
         }   
         else {
-            toast.success( `Listo QUIEN SEAS, la operación de realizo exitosamente`, {
+            toast.success( `QUIEN SEAS, compra confirmada con éxito`, {
                 position: 'top-center',
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -50,14 +50,15 @@ export default function AddMoney( {order, handleShow} ) {
             } );
             setTimeout(() => {
                 setFlag(true);
-                handleMoneyAdded();
+                handleconfirmShop();
+                closeShop();
             }, 2100);
         }
     }
 
     useEffect(()=> {
-        setShow(order);
-    },[order])
+        setShow(modalConfirm);
+    },[modalConfirm])
 
 
     return (
@@ -68,26 +69,26 @@ export default function AddMoney( {order, handleShow} ) {
         >
             {flag ? <Redirect to="/wallet"/> : null}
             <Modal.Header className="modal-proyect-header">
-                <Modal.Title>Ingresa el monto a recargar</Modal.Title>
+                <Modal.Title>Ingresa el código de confirmación</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="form-login-label">Recarga</Form.Label>
+                    <Form.Label className="form-login-label">Código</Form.Label>
                     <Form.Control className="form-login-control"
                         onChange={handleChange}
-                        name="money" 
+                        name="confirmCode" 
                         type="text" 
-                        placeholder="monto a recargar"/>
+                        placeholder="código de confirmación"/>
                 </Form.Group>
             </Modal.Body>
             <Modal.Footer className="modal-proyect-footer">
                 <Button className="modal-button-close" 
-                onClick={handleMoneyAdded}>
+                onClick={handleconfirmShop}>
                     Cancelar
                 </Button>
                 <Button onClick={handleConfirm} 
                 className="modal-button-save-proyect">
-                    Recargar
+                    Confirmar
                 </Button>
             </Modal.Footer>
         </Modal>
