@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
+import { LoggedUser } from '../../redux/actions/actions.js';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 toast.configure();
 
 export default function Login({order, handleShow}) {
 
-    const [loguedUser, setLoguedUser] = useState({
+    const [loggedUser, setLoggedUser] = useState({
         email:"",
         password:""
     })
     const [show, setShow] = useState(false);
+    const dispatch = useDispatch();
 
     function handleChange(e) {
-        setLoguedUser({
-            ...loguedUser,
+        setLoggedUser({
+            ...loggedUser,
             [e.target.name]:e.target.value,
         });
     }
@@ -25,16 +29,49 @@ export default function Login({order, handleShow}) {
     }
 
     function handleConfirm() {
-        toast.success( `Logueo exitoso con ${loguedUser.email}`, {
-            position: 'top-center',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined
-        } );
-        handleLogued();
+        
+        let {email, password} = loggedUser;
+        
+        if(email === "" || password === ""){
+            toast.error( "Hay campos sin completar", {
+                position: 'top-center',
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined
+            } )
+        }   
+        else {
+            axios.post('http://localhost:3001/users/login', loggedUser)
+            .then((response) => {
+                
+                toast.info( `Hola ${response.data.firstName}, bienvenido! `, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                } );
+                dispatch(LoggedUser(response.data));
+                handleLogued();
+            } )
+            .catch( ( error ) => {
+                const message = (error.request.status === 404) ? '¡Usuario no registrado!': 
+                (error.request.status === 401) ? 'Contraseña incorrecta':'Error Inesperado';
+                
+                toast.error(message, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                });
+            } );
+        }
     }
 
     useEffect(()=> {

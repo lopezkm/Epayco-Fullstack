@@ -1,32 +1,45 @@
-import { NEW_REGISTERED, ID_LOGUED, DELETE_USER } from '../actionsNames.js';
+import { LOGGED_USER, LOG_OUT } from '../actionsNames.js';
 
 
 const initialState = {
-  id:""
+	id: '',
+	firstName: '',
+	lastName: '',
+	email: '',
+	documentNumber: '',
+	phoneNumber:'',
+	balance:'',
+	isLogged: false
 }
 
 function Reducer(state = initialState, action) {
   switch ( action.type )
 	{
-		case NEW_REGISTERED:
-		
+		case LOGGED_USER:
+			const {id, firstName, lastName, email, documentNumber, phoneNumber, balance} = action.payload;
 			return {
 				...state,
-				registered: [ ...state.registered, action.payload ]
+				id,
+				firstName,
+				lastName,
+				email,
+				documentNumber,
+				phoneNumber,
+				balance,
+				isLogged: true
 			};
 		
-		case ID_LOGUED:
+		 case LOG_OUT:
 			
 			return {
 				...state,
-				id: action.payload
-			}
-
-		case DELETE_USER:
-		
-			return {
-				...state,
-				registered: state.registered.filter(user => user.id !== action.payload)
+				id: '',
+				firstName: '',
+				lastName: '',
+				email: '',
+				documentNumber: '',
+				phoneNumber:'',
+				isLogged: false
 			}
        
 		default:

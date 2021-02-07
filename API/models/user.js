@@ -24,9 +24,13 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,			
 		},
 		phoneNumber: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.STRING,
             allowNull: false,
             unique: true,
+		},
+		password: {
+			type: DataTypes.STRING,
+            allowNull: false,
 		},
 		balance: {
 			type: DataTypes.FLOAT,
@@ -34,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: false,
     freezeTableName: true,
-    tableName: 'user',
+    tableName: 'users',
     classMethods: {}
   });
   

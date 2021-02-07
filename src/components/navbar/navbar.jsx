@@ -2,25 +2,32 @@ import React, { useState } from 'react';
 import AddMoney from '../addMoney/addMoney.jsx';
 import Shop from '../shop/shop.jsx';
 import { Nav, Navbar, Button } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { Logout } from '../../redux/actions/actions.js';
 
 export default function NavBar() {
 
     const [showAddMoney, setShowAddMoney] = useState(false);
     const [showShop, setShowShop] = useState(false);
-
-    let logId;
+    const loggedIn = useSelector(state => state);
+    const dispatch = useDispatch();
 
     function handleAddMoney() {
-        setShowAddMoney(!showAddMoney)
+        setShowAddMoney(!showAddMoney);
     }
 
     function handleShop() {
-        setShowShop(!showShop)
+        setShowShop(!showShop);
+    }
+
+    function handleLogout() {
+        dispatch(Logout());
+        localStorage.removeItem('state');
     }
 
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-            { logId ?   <Nav className="text-white">
+            { !loggedIn.isLogged ?  <Nav className="text-white">
                     ePayco - Hacemos tu vida más fácil!
                 </Nav> :
                 <Navbar.Collapse id="responsive-navbar-nav">
@@ -37,9 +44,9 @@ export default function NavBar() {
                         <Button onClick={handleShop}>Realizar una compra</Button>
                     </Nav>
                     <Nav className="mr-auto text-white"> 
-                        ALGUIEN
+                        {loggedIn.firstName}
                     </Nav>
-                    <Nav className="mr-auto text-white"> 
+                    <Nav className="mr-auto text-white" onClick={handleLogout}> 
                         Logout
                     </Nav>
                 </Navbar.Collapse>

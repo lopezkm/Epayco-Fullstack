@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 toast.configure();
 
@@ -30,6 +31,7 @@ export default function Register({order, handleShow}) {
 
     function handleConfirm() {
         let {firstName, lastName, email, documentNumber, phoneNumber, password} = registeredUser;
+        
         if(firstName === "" || lastName === "" || email === ""
          || documentNumber === "" || phoneNumber === "" || password === ""){
             toast.error( "Hay campos sin completar", {
@@ -43,16 +45,31 @@ export default function Register({order, handleShow}) {
             } )
         }   
         else {
-            toast.success( `Hola ${firstName} te has registrado con éxito`, {
-                position: 'top-center',
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined
+            axios.post('http://localhost:3001/users/register', registeredUser)
+            .then( ( response ) => {
+                
+                toast.info( `${response.data.firstName} te has registrado con éxito`, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                } ); 
+                handleRegistered();
+            } )
+            .catch( ( error ) => {
+                const message = ( error.request.status === 409 ) ? '¡Ya existe una cuenta con ese email!' : 'Ocurrió un error inesperado';
+                
+                toast.error( message, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                } );
             } );
-            handleRegistered();
         }
     }
 

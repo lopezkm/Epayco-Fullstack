@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Login from '../login/login.jsx';
 import Register from '../register/register.jsx';
+import { useSelector } from 'react-redux';
 
 export default function Home() {
 
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
-
-    let logId;
+    const loggedIn = useSelector(state => state);
 
     function handleShowLogin() {
         setShowLogin(!showLogin)
@@ -18,7 +18,7 @@ export default function Home() {
 
     return (
         <div>
-            {logId ? <div className="jumbotron">
+            { !loggedIn.isLogged ? <div className="jumbotron">
                 <h1 className="display-4">Bienvenido a ePayco!</h1>
                 <p className="lead">La billetera virtual que te permitirá... </p>
                 <hr className="my-4"/>
@@ -35,7 +35,7 @@ export default function Home() {
                 />
                 </div> :
                 <div className="jumbotron">
-                    <h1 className="display-4">QUIEN SEAS, gracias por confiar en ePayco!</h1>
+                    <h1 className="display-4">{loggedIn.firstName}, gracias por confiar en ePayco!</h1>
                     <p className="lead">Accede a tus opciones desde la barra de navegación superior </p>
                     <hr className="my-4"/>
                     <p>No olvides confirmar tus compras con los códigos de confirmación que se enviarána tu correo al momento de realizadas</p>

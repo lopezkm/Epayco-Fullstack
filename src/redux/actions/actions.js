@@ -1,37 +1,15 @@
-import { NEW_REGISTERED, NEW_PROYECT, ID_LOGUED, FINISHED_PROYECT, DELETE_USER } from '../actionsNames.js';
+import { LOGGED_USER } from '../actionsNames.js';
+import { LOG_OUT } from '../actionsNames.js';
 
-export function newRegistered(payload) {
+export function LoggedUser(payload) {
     return { 
-        type: NEW_REGISTERED, 
-        payload 
-    };
-};
-  
-export function newProyect(payload) {
-    return { 
-        type: NEW_PROYECT, 
-        payload 
-    };
-};
-
-export function idLogued(payload) {
-    return { 
-        type: ID_LOGUED,
+        type: LOGGED_USER,
         payload  
     };
 };
 
-export function finishedProyect(payload) {
+export function Logout() {
     return { 
-        type: FINISHED_PROYECT, 
-        payload 
+        type: LOG_OUT,  
     };
-};
-
-export function deleteUser(payload) {
-    return { 
-        type: DELETE_USER,  
-        payload
-    };
-};
-
+}; 
