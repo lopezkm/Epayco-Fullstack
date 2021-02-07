@@ -19,12 +19,12 @@ module.exports = (sequelize, DataTypes) => {
 			}
 		},
 		documentNumber: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.INTEGER, 
             allowNull: false,
             unique: true,			
 		},
 		phoneNumber: {
-			type: DataTypes.NUMBER,
+			type: DataTypes.INTEGER,
             allowNull: false,
             unique: true,
 		},

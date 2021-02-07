@@ -18,10 +18,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       documentNumber: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
       },
       phoneNumber: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
       },
       balance: {
         type: Sequelize.FLOAT
