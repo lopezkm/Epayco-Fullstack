@@ -61,7 +61,7 @@ export default function Shop({order, handleShow}) {
                 progress: undefined
             } )
         } else {
-            let code = codeGenerator(1000, 9999);
+            let code = codeGenerator(100000, 999999);
             dispatch(ShopCode(code));
             const  { firstName, email } = loggedIn;
             axios.post("http://localhost:3001/users/confirm", {firstName, email, code});
