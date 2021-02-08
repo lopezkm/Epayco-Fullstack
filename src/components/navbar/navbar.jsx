@@ -29,26 +29,26 @@ export default function NavBar() {
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             { !loggedIn.isLogged ? <Redirect to="/"/> : null}
-            { !loggedIn.isLogged ?  <Nav className="text-white">
+            { !loggedIn.isLogged ?  <Nav className="welcome-message">
                     ePayco - Hacemos tu vida más fácil!
                 </Nav> :
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav.Link href="/" className="mr-auto text-white"> 
                         BACK
                     </Nav.Link>
-                    <Nav.Link href="/wallet" className="mr-auto text-white"> 
+                    <Nav.Link href="/wallet" className="balance-option text-white"> 
                         Consulta de saldo
                     </Nav.Link>
-                    <Nav className="mr-auto text-white" onClick={handleAddMoney}> 
+                    <Nav className="addMoney-option text-white" onClick={handleAddMoney}> 
                         Recarga de saldo
                     </Nav>
-                    <Nav className="mr-auto text-white" onClick={handleShop}> 
+                    <Nav className="shop-option text-white" onClick={handleShop}> 
                         Realizar una compra
                     </Nav>
-                    <Nav className="mr-auto text-white"> 
+                    <Nav className="name-option"> 
                         {loggedIn.firstName}
                     </Nav>
-                    <Nav className="mr-auto text-white" onClick={handleLogout}> 
+                    <Nav className="logout-option" onClick={handleLogout}> 
                         Logout
                     </Nav>
                 </Navbar.Collapse>

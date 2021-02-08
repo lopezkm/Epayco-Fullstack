@@ -82,34 +82,34 @@ export default function Login({order, handleShow}) {
             backdrop="static"
             keyboard={false}
         >
-            <Modal.Header className="modal-proyect-header">
-                <Modal.Title>Inicia Sesión</Modal.Title>
+            <Modal.Header className="header-login">
+                <Modal.Title className="text-white">Inicia Sesión</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="form-login-label">Email</Form.Label>
-                    <Form.Control className="form-login-control"
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control 
                         onChange={handleChange}
                         name="email" 
                         type="email" 
                         placeholder="ingresa tu email"/>
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
-                    <Form.Label className="form-login-label">Contraseña</Form.Label>
-                    <Form.Control className="form-login-control"
+                    <Form.Label>Contraseña</Form.Label>
+                    <Form.Control 
                         onChange={handleChange}
                         name="password" 
                         type="password" 
                         placeholder="ingresa tu contraseña" />
                 </Form.Group>
             </Modal.Body>
-            <Modal.Footer className="modal-proyect-footer">
-                <Button className="modal-button-close" 
+            <Modal.Footer className="footer-login">
+                <Button className="btn btn-danger" 
                 onClick={handleLogued}>
                     Cancelar
                 </Button>
                 <Button onClick={handleConfirm} 
-                className="modal-button-save-proyect">
+                className="btn btn-success">
                     Ingresar
                 </Button>
             </Modal.Footer>

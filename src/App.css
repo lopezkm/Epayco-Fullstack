@@ -1,0 +1,8 @@
+@import './components/addMoney/addMoney.css';
+@import './components/confirmShop/confirmShop.css';
+@import './components/home/home.css';
+@import './components/login/login.css';
+@import './components/navbar/navbar.css';
+@import './components/register/register.css';
+@import './components/shop/shop.css';
+@import './components/wallet/wallet.css';

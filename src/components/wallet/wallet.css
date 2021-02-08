@@ -1,0 +1,17 @@
+.header-wallet {
+    background-color: grey !important;
+    font-size: 3rem;
+    font-size: bold;
+    margin-top: 2rem;
+}
+.body-wallet {
+    background-color: grey;
+}
+.balance-wallet {
+    color: white;
+    font-size: 3rem;
+    text-align: center;
+}
+.footer-wallet {
+    font-size: 2rem;
+}

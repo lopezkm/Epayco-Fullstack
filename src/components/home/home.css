@@ -1,0 +1,29 @@
+.home-title {
+    font-weight: bold;
+}
+.guide-text {
+    font-size: 2rem;
+}
+.login-button {
+    margin-left: 70%;
+    margin-top: 4rem;
+}
+.register-button {
+    margin-left: 3%;
+    margin-top: 4rem;
+}
+.welcome-message-login-home {
+    text-align: center;
+    font-size: 4rem;
+}
+.option-text-home {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.conrim-text-home {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 1.5rem;
+    color: blue;
+}

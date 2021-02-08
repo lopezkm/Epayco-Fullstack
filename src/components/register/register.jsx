@@ -83,66 +83,66 @@ export default function Register({order, handleShow}) {
             backdrop="static"
             keyboard={false}
         >
-            <Modal.Header className="modal-proyect-header">
-                <Modal.Title>Registrate</Modal.Title>
+            <Modal.Header className="header-register">
+                <Modal.Title className="text-white">Registrate</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="form-login-label">Nombre</Form.Label>
+                <Form.Group controlId="formBasicName" className="formGroup-register">
+                    <Form.Label className="label-register">Nombre</Form.Label>
                     <Form.Control className="form-login-control"
                         onChange={handleChange}
                         name="firstName" 
                         type="text" 
                         placeholder="ingresa tu nombre"/>
                 </Form.Group>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="form-login-label">Apellido</Form.Label>
-                    <Form.Control className="form-login-control"
+                <Form.Group controlId="formBasicLastName" className="formGroup-register">
+                    <Form.Label className="label-register">Apellido</Form.Label>
+                    <Form.Control 
                         onChange={handleChange}
                         name="lastName" 
                         type="text" 
                         placeholder="ingresa tu apellido"/>
                 </Form.Group>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="form-login-label">Email</Form.Label>
-                    <Form.Control className="form-login-control"
+                <Form.Group controlId="formBasicEmail" className="formGroup-register">
+                    <Form.Label className="label-register">Email</Form.Label>
+                    <Form.Control
                         onChange={handleChange}
                         name="email" 
                         type="email" 
                         placeholder="ingresa tu email"/>
                 </Form.Group>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="form-login-label">Documento</Form.Label>
-                    <Form.Control className="form-login-control"
+                <Form.Group controlId="formBasicDocument" className="formGroup-register">
+                    <Form.Label className="label-register">Documento</Form.Label>
+                    <Form.Control 
                         onChange={handleChange}
                         name="documentNumber" 
                         type="number" 
                         placeholder="ingresa tu número de documento"/>
                 </Form.Group>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="form-login-label">Celular</Form.Label>
-                    <Form.Control className="form-login-control"
+                <Form.Group controlId="formBasicPhone" className="formGroup-register">
+                    <Form.Label className="label-register">Celular</Form.Label>
+                    <Form.Control 
                         onChange={handleChange}
                         name="phoneNumber" 
                         type="number" 
                         placeholder="ingresa tu número de celular"/>
                 </Form.Group>
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label className="form-login-label">Contraseña</Form.Label>
-                    <Form.Control className="form-login-control"
+                <Form.Group controlId="formBasicPassword" className="formGroup-register">
+                    <Form.Label className="label-register">Contraseña</Form.Label>
+                    <Form.Control
                         onChange={handleChange}
                         name="password" 
                         type="password" 
                         placeholder="ingresa tu contraseña" />
                 </Form.Group>
             </Modal.Body>
-            <Modal.Footer className="modal-proyect-footer">
-                <Button className="modal-button-close" 
+            <Modal.Footer className="footer-register">
+                <Button className="btn btn-danger" 
                 onClick={handleRegistered}>
                     Cancelar
                 </Button>
                 <Button onClick={handleConfirm} 
-                className="modal-button-save-proyect">
+                className="btn btn-success">
                     Registrarme
                 </Button>
             </Modal.Footer>

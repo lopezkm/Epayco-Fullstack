@@ -110,42 +110,42 @@ export default function AddMoney( {order, handleShow} ) {
             keyboard={false}
         >
             {flag ? <Redirect to="/wallet"/> : null}
-            <Modal.Header className="modal-proyect-header">
-                <Modal.Title>Carga saldo en tu billetera</Modal.Title>
+            <Modal.Header className="header-addMoney">
+                <Modal.Title className="text-white">Carga saldo en tu billetera</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="form-login-label">Ingresa tu documento</Form.Label>
-                    <Form.Control className="form-login-control"
+                <Form.Group controlId="formBasicDocument">
+                    <Form.Label>Ingresa tu documento</Form.Label>
+                    <Form.Control
                         onChange={handleChange}
                         name="documentNumber" 
                         type="text" 
                         placeholder="N° de documento"/>
                 </Form.Group>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="form-login-label">Ingresa tu celular</Form.Label>
-                    <Form.Control className="form-login-control"
+                <Form.Group controlId="formBasicPhone">
+                    <Form.Label>Ingresa tu celular</Form.Label>
+                    <Form.Control
                         onChange={handleChange}
                         name="phoneNumber" 
                         type="text" 
                         placeholder="N° de celular"/>
                 </Form.Group>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="form-login-label">Recarga</Form.Label>
-                    <Form.Control className="form-login-control"
+                <Form.Group controlId="formBasicAmount">
+                    <Form.Label>Recarga</Form.Label>
+                    <Form.Control
                         onChange={handleChange}
                         name="money" 
                         type="text" 
                         placeholder="monto a recargar"/>
                 </Form.Group>
             </Modal.Body>
-            <Modal.Footer className="modal-proyect-footer">
-                <Button className="modal-button-close" 
+            <Modal.Footer className="footer-addMoney">
+                <Button className="btn btn-danger" 
                 onClick={handleMoneyAdded}>
                     Cancelar
                 </Button>
                 <Button onClick={handleConfirm} 
-                className="modal-button-save-proyect">
+                className="btn btn-success">
                     Recargar
                 </Button>
             </Modal.Footer>

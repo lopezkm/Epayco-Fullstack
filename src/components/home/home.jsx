@@ -19,12 +19,12 @@ export default function Home() {
     return (
         <div>
             { !loggedIn.isLogged ? <div className="jumbotron">
-                <h1 className="display-4">Bienvenido a ePayco!</h1>
-                <p className="lead">La billetera virtual que te permitirá... </p>
+                <h1 className="home-title">Bienvenido a ePayco!</h1>
+                <p className="lead">La billetera virtual que te permitirá realizar compras y recargar tu cuenta sin moverte de casa</p>
                 <hr className="my-4"/>
-                <p>Por favor registrate o inicia sesión para poder empezar a operar</p>
-                <button className="btn btn-primary btn-lg" onClick={handleShowLogin}>Login</button>
-                <button className="btn btn-primary btn-lg" onClick={handleShowRegister}>Registrarse</button>
+                <p className="guide-text">Por favor registrate o inicia sesión para poder empezar a operar</p>
+                <button className="btn btn-success btn-lg login-button" onClick={handleShowLogin}>Login</button>
+                <button className="btn btn-secondary btn-lg register-button" onClick={handleShowRegister}>Registrarse</button>
                 <Login 
                     order= {showLogin}
                     handleShow= {handleShowLogin}
@@ -35,10 +35,10 @@ export default function Home() {
                 />
                 </div> :
                 <div className="jumbotron">
-                    <h1 className="display-4">{loggedIn.firstName}, gracias por confiar en ePayco!</h1>
-                    <p className="lead">Accede a tus opciones desde la barra de navegación superior </p>
+                    <h1 className="welcome-message-login-home">{loggedIn.firstName}, gracias por confiar en ePayco!</h1>
+                    <p className="option-text-home">Accede a tus opciones desde la barra de navegación superior </p>
                     <hr className="my-4"/>
-                    <p>No olvides confirmar tus compras con los códigos de confirmación que se enviarána tu correo al momento de realizadas</p>
+                    <p className="conrim-text-home">No olvides confirmar tus compras con los códigos que se enviarán a tu correo</p>
                 </div>
             }
         </div>

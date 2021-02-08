@@ -8,14 +8,14 @@ export default function Wallet() {
 
     return (
         <Card>
-            <Card.Header>Hola {loggedIn.firstName}</Card.Header>
-            <Card.Body>
+            <Card.Header className="header-wallet">{loggedIn.firstName}, estas en tu cuenta</Card.Header>
+            <Card.Body className="body-wallet">
                 <blockquote className="blockquote mb-0">
-                <p>
-                    Tu estado de cuenta es: $ {loggedIn.balance}
+                <p className="balance-wallet">
+                    Tu saldo actual es: $ {loggedIn.balance}
                 </p>
-                <footer className="blockquote-footer">
-                    Recuerda que puedes ingresar dinero a tu cuenta y realizar compras cuando lo prefieras! 
+                <footer className="footer-wallet">
+                    Recuerda que puedes ingresar dinero a tu cuenta y/o realizar compras cuando lo prefieras! 
                 </footer>
                 </blockquote>
             </Card.Body>

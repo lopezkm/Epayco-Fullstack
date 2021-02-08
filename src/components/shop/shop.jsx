@@ -91,26 +91,26 @@ export default function Shop({order, handleShow}) {
             backdrop="static"
             keyboard={false}
         >
-            <Modal.Header className="modal-proyect-header">
-                <Modal.Title>Ingresa el monto de la compra</Modal.Title>
+            <Modal.Header className="header-shop">
+                <Modal.Title className="text-white">Ingresa el monto de la compra</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="form-login-label">Monto</Form.Label>
-                    <Form.Control className="form-login-control"
+                <Form.Group controlId="formBasicAmount">
+                    <Form.Label >Monto</Form.Label>
+                    <Form.Control 
                         onChange={handleChange}
                         name="shopAmount" 
                         type="text" 
                         placeholder="monto de la compra"/>
                 </Form.Group>
             </Modal.Body>
-            <Modal.Footer className="modal-proyect-footer">
-                <Button className="modal-button-close" 
+            <Modal.Footer className="footer-shop">
+                <Button className="btn btn-danger" 
                 onClick={handleShopMade}>
                     Cancelar
                 </Button>
                 <Button onClick={handleConfirm} 
-                className="modal-button-save-proyect">
+                className="btn btn-success">
                     Comprar
                 </Button>
             </Modal.Footer>

@@ -1,0 +1,26 @@
+.welcome-message {
+    color: white;
+    font-size: 3rem;
+    margin-left: 20%;
+}
+.balance-option {
+    font-size: 1.5rem;
+    margin-right: 4rem;
+}
+.addMoney-option {
+    font-size: 1.5rem;
+    margin-right: 4rem;
+}
+.shop-option {
+    font-size: 1.5rem;
+    margin-right: 11rem;
+}
+.name-option {
+    font-size: 1.5rem;
+    color: blue;
+    margin-right: 1.5rem;
+}
+.logout-option {
+    color: red;
+    margin-right: 1rem;
+}

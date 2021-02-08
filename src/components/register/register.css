@@ -1,0 +1,12 @@
+.header-register {
+    background-color: grey;
+}
+.footer-register {
+    background-color: black;
+}
+.label-register {
+    margin: 0.2rem;
+}
+.formGroup-register {
+    margin-bottom: 0.2rem !important;
+}
