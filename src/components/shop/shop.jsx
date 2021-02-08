@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import ConfirmShop from '../confirmShop/confirmShop.jsx';
-import { Redirect } from 'react-router-dom';
 import { Modal, Form, Button } from 'react-bootstrap';
+import { ShopCode } from '../../redux/actions/actions.js';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 toast.configure();
 
 export default function Shop({order, handleShow}) {
-
+    
     const [shopMade, setShopMade] = useState({
         shopAmount:""
     })
     const [show, setShow] = useState(false);
     const [flag, setFlag] = useState(false);
+    const loggedIn = useSelector(state => state);
+    const dispatch = useDispatch();
 
     function handleChange(e) {
         setShopMade({
@@ -30,23 +34,40 @@ export default function Shop({order, handleShow}) {
         setFlag(!flag)
     }
 
+    function codeGenerator(min, max) {
+        return Math.floor((Math.random() * (max - (min + 1))) + min);
+    }
+
     function handleConfirm() {
         let {shopAmount} = shopMade;
         if(shopAmount === ""){
             toast.error( "No ingresaste ningún monto de compra", {
                 position: 'top-center',
-                autoClose: 2000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: false,
                 draggable: true,
                 progress: undefined
             } )
-        }   
-        else {
-            toast.success( `QUIEN SEAS, por favor confirma tu compra con el código enviado a tu email `, {
+        } else if(parseFloat(shopAmount).toFixed(2) > parseFloat(loggedIn.balance).toFixed(2)){
+            toast.error("Tu saldo no es suficiente para realizar la compra", {
                 position: 'top-center',
-                autoClose: 2000,
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined
+            } )
+        } else {
+            let code = codeGenerator(1000, 9999);
+            dispatch(ShopCode(code));
+            const  { firstName, email } = loggedIn;
+            axios.post("http://localhost:3001/users/confirm", {firstName, email, code});
+            toast.success( `${loggedIn.firstName}, por favor confirma tu compra con el código enviado a tu email `, {
+                position: 'top-center',
+                autoClose: 4000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: false,
@@ -55,7 +76,7 @@ export default function Shop({order, handleShow}) {
             } );
             setTimeout(() => {
                 handleConfirmShop();
-            }, 2100);
+            }, 4100);
         }
     }
 
@@ -97,6 +118,7 @@ export default function Shop({order, handleShow}) {
                 modalConfirm= {flag}
                 handleConfirmCode= {handleConfirmShop}
                 closeShop= {handleShopMade}
+                shopAmount= {shopMade.shopAmount}
             />
         </Modal>
     )

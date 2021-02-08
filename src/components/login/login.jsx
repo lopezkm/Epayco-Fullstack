@@ -35,21 +35,20 @@ export default function Login({order, handleShow}) {
         if(email === "" || password === ""){
             toast.error( "Hay campos sin completar", {
                 position: 'top-center',
-                autoClose: 2000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: false,
                 draggable: true,
                 progress: undefined
-            } )
+            })
         }   
         else {
             axios.post('http://localhost:3001/users/login', loggedUser)
             .then((response) => {
-                
-                toast.info( `Hola ${response.data.firstName}, bienvenido! `, {
-                    position: "top-right",
-                    autoClose: 1500,
+                toast.success(`Hola ${response.data.firstName}, bienvenid@! `, {
+                    position: "top-center",
+                    autoClose: 3000,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
@@ -57,20 +56,19 @@ export default function Login({order, handleShow}) {
                 } );
                 dispatch(LoggedUser(response.data));
                 handleLogued();
-            } )
-            .catch( ( error ) => {
+            })
+            .catch((error) => {
                 const message = (error.request.status === 404) ? '¡Usuario no registrado!': 
                 (error.request.status === 401) ? 'Contraseña incorrecta':'Error Inesperado';
-                
                 toast.error(message, {
-                    position: "top-right",
+                    position: "top-center",
                     autoClose: 3000,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
                     progress: undefined
                 });
-            } );
+            });
         }
     }
 

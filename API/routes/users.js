@@ -60,171 +60,103 @@ server.post('/login', (request, response) => {
 } ); 
 
 /* =================================================================================
-* 		[ Devuelve el usuario logueado o 401 en caso contrario ]
+* 		[ Agregar dinero en cuenta ]
 * ================================================================================= */
 
-/* server.get( '/me', isAuthenticated, ( request, response, next ) => {
-	response.status( 200 ).send( request.user );
-} ); */
-
-/* =================================================================================
-* 		[ Borra la sesión de un usuario ]
-* ================================================================================= */
-
-/* server.get( '/logout', isAuthenticated, ( request, response, next ) => {
-	request.logout( );
-	response.sendStatus( 200 );
-} ); */
-
-
-/* =================================================================================
-* 		[ Obtención de un usuario particular ]
-* ================================================================================= */
-
-/* server.get( '/:id', hasAccessLevel( ), ( request, response ) => {
-	let { id } = request.params;
-	
-	User.findByPk( id ).then( ( user ) => {
-		if ( !user ) {
-			return response.sendStatus( 404 );
+server.put('/addMoney', (request, response) => {
+	const { documentNumber, phoneNumber, money, balance } = request.body;
+	User.findOne({
+		where: {
+			documentNumber,
 		}
-		
-		response.status( 200 ).send( user );
-	} );
-} ); */
-
-/* =================================================================================
-* 		[ Obtención de todos los usuarios ]
-* ================================================================================= */
-
-/* server.get( '/', hasAccessLevel( ), ( request, response ) => {
-	User.findAll( ).then( ( users ) => {
-		response.status( 200 ).send( users );
-	} );
-} ); */
-
-/* =================================================================================
-* 		[ Modificación de un usuario ]
-* ================================================================================= */
-
-/* server.put( '/:id', hasAccessLevel( ), ( request, response ) => {
-	const { id } = request.params;
-	
-	User.findByPk( id ).then( ( user ) => {
-		if ( !user ) {
-			return response.sendStatus( 404 );
+	})
+	.then( user => {
+		if (!user) {
+			return response.status(404).send('Wrong document number');
+		} else if (user.phoneNumber !== phoneNumber) {
+			return response.status(401).send('Wrong phone number');
 		}
-		
-		return user.update( {
-			...request.body
-		}, {
-			fields: [ 'firstName', 'lastName', 'email' ]
+		return user.update({
+			...user,
+			balance: (parseFloat(money) + parseFloat(balance)).toFixed(2) 
+		})
+		.then(user => {
+			response.status(200).send(user);
 		} )
-		.then( ( user ) => {
-			response.status( 200 ).send( user );
-		} );
+		.catch((error) => {
+			response.status(500).send(error);
+		});
 	} );
-} ); */
+} );
 
 /* =================================================================================
-* 		[ Eliminación de un usuario ]
+* 		[ Descuento de saldo al realizar una compra ]
 * ================================================================================= */
 
-/* server.delete( '/:id', hasAccessLevel( ), ( request, response ) => {
-	let { id } = request.params;
-	
-	User.findByPk( id ).then( ( user ) => {
-		if ( !user ) {
-			return response.sendStatus( 404 );
+server.put('/substractMoney', (request, response) => {
+	const { documentNumber, phoneNumber, shopAmount, balance } = request.body;
+	User.findOne({
+		where: {
+			documentNumber,
 		}
-		
-		user.destroy( ).then( ( ) => {
-			response.sendStatus( 204 );
-		} );
+	})
+	.then( user => {
+		if (!user) {
+			return response.status(404).send('Wrong document number');
+		} else if (user.phoneNumber !== phoneNumber) {
+			return response.status(401).send('Wrong phone number');
+		}
+		return user.update({
+			...user,
+			balance: (parseFloat(balance) - parseFloat(shopAmount)).toFixed(2) 
+		})
+		.then(user => {
+			response.status(200).send(user);
+		} )
+		.catch((error) => {
+			response.status(500).send(error);
+		});
 	} );
-} ); */
+} );
 
 /* =================================================================================
-* 		[ Envía un mail al usuario para reestablecer su contraseña ]
+* 		[ Envía un mail al usuario para confirmar una compra ]
 * ================================================================================= */
 
-/* server.post( '/forgot', ( request, response ) => {
-	const { email } = request.body;
+server.post('/confirm', (request, response) => {
+	const { firstName, email, code } = request.body;
 	
-	if ( !email ) {
-		return response.status( 400 ).send( 'Email is required' );
+	if (!email) {
+		return response.status(400).send('Email is required');
 	}
 	
-	User.findOne( {
-		where: {
-			email
-		}
-	} )
-	.then( ( user ) => {
-		if ( !user ) {
-			response.status( 404 ).send( 'Email does not exist' );
-			
-			return null;
-		}
-		
-		return ResetToken.findOrCreate( {
-			where: [ {
-				userId: user.id,
-				used: false,
-				expiration: {
-					[ Op.gt ]: Date.now( )
-				}
-			} ],
-			defaults: {
-				userId: user.id
-			}
-		} );
-	} )
-	.then( ( data ) => {
-		if ( data === null ) {
-			return;
-		}
-		
-		const [ resetToken, created ] = data;
-		
-		if ( !created ) {
-			const now = Date.now( );
-			
-			if ( ( now - resetToken.requested ) < 300000 ) {
-				return response.status( 409 ).send( 'User already requested a password reset' );
-			}
-			
-			resetToken.update( { request: now } );
-		}
-		
-		const transporter = nodemailer.createTransport( {
-			service: 'gmail',
-			auth: {
-				user: `${ process.env.GMAIL_USER }`,
-				pass: `${ process.env.GMAIL_PASSWORD }`
-			}
-		} );
+	const htmlEmail = `
+    <h3>Email enviado desde ePayco</h3>
+    <p>${firstName} por favor, confirma tu compra con el código proporcionado</p>
+    <h3> Tu código: ${code} </h3>`;
+    
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'quesellotuc@gmail.com',
+			pass: 'd1e9s8w3a'
+        }
+    });
+	
+	let mailOptions = {
+		from:'ePayco',
+        to: email,
+        subject: 'Código de confirmación de compra',
+        html: htmlEmail
+    };
 
-		const mailOptions = {
-			from: `"Six Games" <${ process.env.GMAIL_USER }>`,
-			to: email,
-			subject: '[Six Games] Reinicio de clave',
-			text: '¡Hola! Estás recibiendo este correo porque tú (o alguien más) requirió reestablecer la clave de tu cuenta.\n' +
-				'Por favor, presiona en el siguiente enlace para reestablecer tu clave (tienes una hora):\n\n' +
-				`${ process.env.FRONT_URL }/reset/${ resetToken.token }\n\n` +
-				'Si no fuiste tú quien pidió el reestablecimiento de tu clave, por favor ignora este mensaje.\n'
-		};
-		
-		transporter.sendMail( mailOptions, ( mailError, mailResponse ) => {
-			mailError ?
-				response.status( 409 ).send( 'Recovery email could not be sent' ) :
-				response.status( 200 ).send( 'Recovery email was sent successfully' );
-		} );
-	} )
-	.catch( ( error ) => {
-		response.sendStatus( 500 );
-	} );
-} ); */
+    transporter.sendMail(mailOptions, (err, info) => {
+        if(err) {
+            return console.log("llegue aqui", err);
+        }
+        console.log("Mensaje enviado: %s", info);
+    });
+} ); 
 
 /* =================================================================================
 * 		[ Exportamos nuestras rutas ]

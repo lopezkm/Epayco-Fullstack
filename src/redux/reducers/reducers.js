@@ -1,4 +1,4 @@
-import { LOGGED_USER, LOG_OUT } from '../actionsNames.js';
+import { LOGGED_USER, LOG_OUT, ADD_MONEY, CONFIRMATION_CODE, SUBSTRACT_MONEY } from '../actionsNames.js';
 
 
 const initialState = {
@@ -8,7 +8,8 @@ const initialState = {
 	email: '',
 	documentNumber: '',
 	phoneNumber:'',
-	balance:'',
+	balance: 0,
+	shopCode: 0,
 	isLogged: false
 }
 
@@ -26,6 +27,7 @@ function Reducer(state = initialState, action) {
 				documentNumber,
 				phoneNumber,
 				balance,
+				shopCode: 0,
 				isLogged: true
 			};
 		
@@ -39,8 +41,31 @@ function Reducer(state = initialState, action) {
 				email: '',
 				documentNumber: '',
 				phoneNumber:'',
+				balance: 0,
+				shopCode: 0,
 				isLogged: false
-			}
+			};
+
+		case ADD_MONEY:
+		
+			return {
+				...state,
+				balance: action.payload
+			};
+		
+		case SUBSTRACT_MONEY:
+	
+			return {
+				...state,
+				balance: action.payload
+			};
+
+		case CONFIRMATION_CODE:
+	
+			return {
+				...state,
+				shopCode: action.payload
+			};
        
 		default:
 			

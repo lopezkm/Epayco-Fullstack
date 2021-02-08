@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Modal, Form, Button } from 'react-bootstrap';
+import { MoneySubstracted } from '../../redux/actions/actions.js';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 toast.configure();
 
-export default function ConfirmShop({modalConfirm, handleConfirmCode, closeShop}) {
+export default function ConfirmShop({modalConfirm, handleConfirmCode, closeShop, shopAmount}) {
 
     const [code, setCode] = useState({
         confirmCode:""
     })
     const [show, setShow] = useState(false);
     const [flag, setFlag] = useState(false);
+    const loggedIn = useSelector(state => state);
+    const dispatch = useDispatch();
 
     function handleChange(e) {
         setCode({
@@ -27,10 +32,11 @@ export default function ConfirmShop({modalConfirm, handleConfirmCode, closeShop}
 
     function handleConfirm() {
         let {confirmCode} = code;
+        let {firstName, shopCode, balance, documentNumber, phoneNumber} = loggedIn;
         if(confirmCode === ""){
             toast.error( "No ingresaste ningún código", {
                 position: 'top-center',
-                autoClose: 2000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: false,
@@ -38,21 +44,35 @@ export default function ConfirmShop({modalConfirm, handleConfirmCode, closeShop}
                 progress: undefined
             } )
         }   
-        else {
-            toast.success( `QUIEN SEAS, compra confirmada con éxito`, {
+        else if (parseInt(confirmCode) !== shopCode) {
+            toast.error( "Código incorrecto", {
                 position: 'top-center',
-                autoClose: 2000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: false,
                 draggable: true,
                 progress: undefined
-            } );
-            setTimeout(() => {
-                setFlag(true);
-                handleconfirmShop();
-                closeShop();
-            }, 2100);
+            } )
+        } else {
+            axios.put("http://localhost:3001/users/substractMoney", {documentNumber, phoneNumber, shopAmount, balance})
+            .then((response) => {
+                toast.success(`${firstName}, tu compra fue confirmada con éxito`, {
+                    position: 'top-center',
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined
+                } );
+                dispatch(MoneySubstracted(response.data.balance));
+                setTimeout(() => {
+                    setFlag(true);
+                    handleconfirmShop();
+                    closeShop();
+                }, 4100);
+            })
         }
     }
 

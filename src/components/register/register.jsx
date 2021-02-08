@@ -36,7 +36,7 @@ export default function Register({order, handleShow}) {
          || documentNumber === "" || phoneNumber === "" || password === ""){
             toast.error( "Hay campos sin completar", {
                 position: 'top-center',
-                autoClose: 2000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: false,
@@ -46,11 +46,11 @@ export default function Register({order, handleShow}) {
         }   
         else {
             axios.post('http://localhost:3001/users/register', registeredUser)
-            .then( ( response ) => {
+            .then((response) => {
                 
-                toast.info( `${response.data.firstName} te has registrado con éxito`, {
-                    position: "top-right",
-                    autoClose: 1500,
+                toast.success(`${response.data.firstName} te has registrado con éxito`, {
+                    position: "top-center",
+                    autoClose: 3000,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
@@ -58,11 +58,11 @@ export default function Register({order, handleShow}) {
                 } ); 
                 handleRegistered();
             } )
-            .catch( ( error ) => {
-                const message = ( error.request.status === 409 ) ? '¡Ya existe una cuenta con ese email!' : 'Ocurrió un error inesperado';
+            .catch((error) => {
+                const message = (error.request.status === 409) ? '¡Ya existe una cuenta con ese email!' : 'Ocurrió un error inesperado';
                 
-                toast.error( message, {
-                    position: "top-right",
+                toast.error(message, {
+                    position: "top-center",
                     autoClose: 3000,
                     closeOnClick: true,
                     pauseOnHover: true,

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import AddMoney from '../addMoney/addMoney.jsx';
 import Shop from '../shop/shop.jsx';
-import { Nav, Navbar, Button } from 'react-bootstrap';
+import { Nav, Navbar } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Logout } from '../../redux/actions/actions.js';
 
@@ -27,6 +28,7 @@ export default function NavBar() {
 
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            { !loggedIn.isLogged ? <Redirect to="/"/> : null}
             { !loggedIn.isLogged ?  <Nav className="text-white">
                     ePayco - Hacemos tu vida más fácil!
                 </Nav> :
@@ -37,11 +39,11 @@ export default function NavBar() {
                     <Nav.Link href="/wallet" className="mr-auto text-white"> 
                         Consulta de saldo
                     </Nav.Link>
-                    <Nav className="mr-auto text-white"> 
-                        <Button onClick={handleAddMoney}>Recarga de saldo</Button>
+                    <Nav className="mr-auto text-white" onClick={handleAddMoney}> 
+                        Recarga de saldo
                     </Nav>
-                    <Nav className="mr-auto text-white"> 
-                        <Button onClick={handleShop}>Realizar una compra</Button>
+                    <Nav className="mr-auto text-white" onClick={handleShop}> 
+                        Realizar una compra
                     </Nav>
                     <Nav className="mr-auto text-white"> 
                         {loggedIn.firstName}
